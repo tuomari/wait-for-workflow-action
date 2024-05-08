@@ -29,14 +29,14 @@ jobs:
           ref: "${{ inputs.ref || github.ref }}"
 
       - name: Wait for the triggered workflow to complete
-        run: |
-          export GITHUB_TOKEN="${{ secrets.REPOSITORY_DISPATCH_TOKEN }}"
-          export WORKFLOW_ID="to_be_triggered.yml"
-          export RUN_ID="${{ inputs.run_id }}"
-          export MAX_WAIT_MINUTES="2"
-          export INTERVAL="5"
-          export TIMEOUT="5"
-          export ORG_NAME="kamilchodola"
-          export REPO_NAME="wait-for-workflow-action"
-          export REF="${{ inputs.ref || github.ref }}"
-          chmod +x ./scripts/wait-for-workflow.sh && ./scripts/wait-for-workflow.sh
+        uses: kamilchodola/wait-for-workflow-action@kch/fix_permissions
+        with:
+          GITHUB_TOKEN=${{ secrets.REPOSITORY_DISPATCH_TOKEN }}
+          WORKFLOW_ID='to_be_triggered.yml'
+          RUN_ID=${{ inputs.run_id }}
+          MAX_WAIT_MINUTES='2'
+          INTERVAL='5'
+          TIMEOUT='5'
+          ORG_NAME='kamilchodola'
+          REPO_NAME='wait-for-workflow-action'
+          REF=${{ inputs.ref || github.ref }}
